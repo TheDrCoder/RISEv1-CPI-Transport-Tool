@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>RunITSimple Integration Suite Essentials</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    
+    
+    
+    <div class="top-right-links">
+    <a href="#" id="aboutLink">ℹ️ About</a>
+    <a href="#" id="instructionsLink">📖 Instructions</a>
+    <a href="#" id="releaseNotesLink">📝 Release Notes</a>
+</div>
+    <div class="container">
+        <div class="centered-box">
+            <h1 class="title"><img src="company.png" alt="RunITSimple Logo" class="logo"> Integration Suite Essentials</h1>
+            <!-- About & Instructions Buttons -->
+<!-- Button Group -->
+<br>
+
+<!-- 
+<div class="btn-group">
+    <button id="aboutBtn" class="btn secondary-btn">ℹ️ About</button>
+    <button id="instructionsBtn" class="btn secondary-btn">📖 Instructions</button>
+    <button id="releaseNotesBtn" class="btn secondary-btn">📝 Release Notes</button>
+</div>
+-->
+<br>
+<br>
+<!-- Start Transport Button -->
+<div class="btn-group">
+<button id="startBtn" class="btn primary-btn">Transport Management</button>
+<button id="ExportBtn" class="btn primary-btn" disabled>Export Logs</button>
+</div>
+
+        </div>
+    </div>
+    <!-- About Modal -->
+<!-- About Modal -->
+<div id="aboutModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>About</h2>
+        <p>
+            The RunIT Integration Suite Essentials (RISE) helps manage SAP Integration Suite efficiently.
+            It provides a user-friendly interface for managing integration packages, 
+            artifacts, and deployment processes.  
+        </p>
+        <br>
+        
+           <h3>Authored by RunITSimple</h3> 
+           
+        
+    </div>
+</div>
+
+<!-- Instructions Modal -->
+<div id="instructionsModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Instructions</h2>
+        <h3>How to use the Tranport management tool:</h3>
+        <ol>
+            <li>Click "Transport Management" to begin.</li>
+            <li>Enter <strong>Source & Target CPI credentials</strong>.</li>
+            <li>Select the <strong>Integration Packages</strong>.</li>
+            <li>Choose the <strong>Artifacts to transport</strong>.</li>
+            <li>Review <strong>configurations & confirm the transport</strong>.</li>
+        </ol>
+        <h3>How to use the Export Log tool:</h3>
+        <ol>
+            <li>Click "Export Logs" to begin.</li>
+            <li>Enter <strong>CPI credentials</strong>.</li>
+            <li>Select the <strong>Parameters</strong>.</li>
+            <li>Choose the <strong>Artifacts for Logs</strong>.</li>
+            <li>Review <strong>configurations & export the Log</strong>.</li>
+        </ol>
+    </div>
+</div>
+<!-- Release Notes Modal -->
+<div id="releaseNotesModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Release Notes</h2>
+        <p><strong>Version 1.0</strong> - Initial release with the following features:</p>
+        <ul>
+            <li>🚀 RISE UI enhancements</li>
+            <li>🛠️ Transport configurations & artifact selection</li>
+            <li>📦 Smooth integration package deployment</li>
+            <li>🎨 Improved UI/UX with modal-based navigation</li>
+        </ul>
+        <p>Stay tuned for more updates!</p>
+    </div>
+</div>
+    <!-- Footer for Version & Developer Info -->
+<footer class="footer">
+  <!--  <p class="version">v1.0</p> -->
+    <p class="author">
+        <div><img src="company3mini.png" alt="RunITSimple Logo" class="minilogo"><strong> 2025-2026. All Rights Reserved</strong></div></p>
+</footer>
+</body>
+</html>

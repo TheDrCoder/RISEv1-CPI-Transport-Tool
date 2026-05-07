@@ -1,0 +1,10 @@
+﻿{
+    "QA_Create_BausteinObject_from_C4C":  {
+                                              "status":  "❌ Failed to extract target manifest",
+                                              "progress":  100
+                                          },
+    "QA__Update_BausteinObject_in_C4C":  {
+                                             "status":  "❌ Failed to extract target manifest",
+                                             "progress":  100
+                                         }
+}

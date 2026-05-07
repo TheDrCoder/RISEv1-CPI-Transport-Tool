@@ -1,0 +1,12 @@
+node_modules/
+.env
+server/storage/zips/*
+server/storage/extracted/*
+server/storage/modified/*
+server/storage/logs/*
+server/storage/backups/*
+!server/storage/zips/.gitkeep
+!server/storage/extracted/.gitkeep
+!server/storage/modified/.gitkeep
+!server/storage/logs/.gitkeep
+!server/storage/backups/.gitkeep

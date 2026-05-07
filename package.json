@@ -1,0 +1,32 @@
+{
+  "name": "risev1-cpi-transport-tool",
+  "version": "1.0.0",
+  "description": "Node.js version of SAP CPI Transport Tool",
+  "main": "server/app.js",
+  "scripts": {
+    "dev": "nodemon server/app.js",
+    "start": "node server/app.js"
+  },
+  "keywords": [
+    "sap",
+    "cpi",
+    "integration-suite",
+    "transport-tool",
+    "nodejs",
+    "express"
+  ],
+  "author": "RunITSimple",
+  "license": "MIT",
+  "dependencies": {
+    "adm-zip": "^0.5.16",
+    "axios": "^1.7.9",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "multer": "^1.4.5-lts.1",
+    "uuid": "^11.0.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

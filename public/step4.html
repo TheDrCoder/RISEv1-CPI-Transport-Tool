@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 4 - Manifest & Configurations</title>
+    <script src="script.js" defer></script>
+
+    <style>
+        /* Fullscreen Background */
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #181818;
+            padding: 0;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            zoom: 70%;
+        }
+
+        /* Title Styling */
+        .title-container {
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+            font-family: 'Montserrat', sans-serif !important;
+            font-size: 2.0rem;
+            font-weight: 300;
+            text-align: center;
+            background: linear-gradient(45deg, #ffffff, #d9d9d9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Step Title */
+        .step-title {
+            font-family: 'Montserrat', sans-serif !important;
+            font-size: 1.5rem;
+            font-weight: 200;
+            text-align: center;
+            background: linear-gradient(45deg, #ffffff, #d9d9d9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Manifest & Configurations Container */
+        /* Step 4 Container */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    width: 90%;
+    margin: auto;
+    padding-top: 20px;
+}
+
+/* Each Column (Source & Target) */
+.column {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 45%;
+    min-width: 450px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    color: black;
+    text-align: center;
+}
+/* Table Wrapper to Align Source & Target Config Tables */
+.table-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* Ensure Source & Target Config Tables Have Equal Height */
+.table-container {
+    flex: 1; /* Ensures equal width distribution */
+    min-height: 300px; /* Keeps height consistent */
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Manifest Box Styling */
+.manifest-box {
+    background: #f5f5f5;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #ddd;  /* ✅ Ensures Border */
+    text-align: left;
+    width: 100%;
+    margin: 10px auto;
+}
+
+/* Manifest Table */
+.manifest-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+    table-layout: fixed;  /* ✅ Ensures uniform column widths */
+    border: 1px solid #ddd;
+}
+
+/* Column Widths */
+.manifest-table th, 
+.manifest-table td {
+    padding: 10px;
+    border: 1px solid #ddd;  /* ✅ Restores Borders */
+    text-align: left;
+}
+
+/* Fix Widths */
+.manifest-table th:nth-child(1), 
+.manifest-table td:nth-child(1) {
+    width: 30%; /* ✅ Fixed Width for Labels */
+}
+
+.manifest-table th:nth-child(2), 
+.manifest-table td:nth-child(2) {
+    width: 70%; /* ✅ Fixed Width for Values */
+}
+/* Configuration Header with Copy Button */
+.config-header {
+    display: flex;
+    justify-content: center; /* Center-aligns everything */
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+/* Target Configuration Title Stays Centered */
+.config-title {
+    flex-grow: 1;
+    text-align: center; /* Ensures it stays centered */
+}
+
+/* Copy Button Styling */
+.copy-btn {
+    background: #007BFF;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 24px;
+    transition: 0.3s;
+}
+
+/* Hover Effect */
+.copy-btn:hover {
+    background: #0056b3;
+}
+
+/* Configurations Table */
+.config-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+    border: 1px solid #ddd; /* ✅ Adds outer border */
+}
+
+/* Ensure Headers Have Borders */
+.config-table th {
+    background: #f5f5f5;
+    font-weight: bold;
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+/* Ensure Each Cell Has a Border */
+.config-table td {
+    padding: 10px;
+    border: 1px solid #ddd; /* ✅ Restores Borders Between Cells */
+    text-align: left;
+}
+
+/* Scrollable Configurations Table */
+.config-table tbody {
+    display: block;
+    max-height: 250px; /* ✅ Ensures Scrolling Works */
+    overflow-y: auto;
+    width: 100%;
+}
+
+/* Ensures Header & Rows Align */
+.config-table thead,
+.config-table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+
+
+
+/* Transport Button */
+.transport-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.transport-btn {
+    background: #F2004B;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.transport-btn:hover {
+    background: #F2004B;
+    transform: scale(1.2);
+}
+
+
+        /* Previous Button */
+        .prev-btn {
+            background: #4CAF50;
+            color: white;
+            border-radius: 6px;
+            padding: 12px 24px;
+            font-size: 18px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .prev-btn:hover {
+            background: #45a049;
+             transform: scale(1.2);
+
+        }
+
+        /* Button Container */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Title Container -->
+    <div class="title-container">
+        <h1>CPI Transport Management Tool</h1>
+    </div>
+
+    <!-- Step Title -->
+    <h2 class="step-title">Manifest & Configuration Mapping</h2>
+
+    <!-- Manifest & Configurations Container -->
+    <div class="container">
+        <!-- Left Column: Source -->
+        <!-- Left Column: Source -->
+<div class="column">
+    <h3>📜 Source Artifact Manifest</h3>
+    <table class="manifest-table">
+        <tr><th>Bundle-SymbolicName</th><td id="sourceBundleSymbolicName" class="multi-line"></td></tr>
+        <tr><th>Origin-Bundle-SymbolicName</th><td id="sourceOriginBundleSymbolicName" class="multi-line"></td></tr>
+        <tr><th>Origin-Bundle-Name</th><td id="sourceOriginBundleName" class="multi-line"></td></tr>
+        <tr><th>Bundle-Name</th><td id="sourceBundleName" class="multi-line"></td></tr>
+    </table>
+<div class="table-wrapper">
+    <!-- Source Config Table -->
+    <div class="table-container">
+    <h3>⚙ Source Configurations</h3>
+    <table id="sourceConfigTable" class="config-table">
+        <thead>
+            <tr>
+                <th>Parameter Name</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    </div>
+ </div>
+</div>
+
+<!-- Right Column: Target -->
+<div class="column">
+    <h3>📜 Target Artifact Manifest</h3>
+    <table class="manifest-table">
+        <tr><th>Bundle-SymbolicName</th><td id="targetBundleSymbolicName" class="multi-line"></td></tr>
+        <tr><th>Origin-Bundle-SymbolicName</th><td id="targetOriginBundleSymbolicName" class="multi-line"></td></tr>
+        <tr><th>Origin-Bundle-Name</th><td id="targetOriginBundleName" class="multi-line"></td></tr>
+        <tr><th>Bundle-Name</th><td id="targetBundleName" class="multi-line"></td></tr>
+    </table>
+<div class="table-wrapper">
+    <!-- Source Config Table -->
+    
+
+<div class="table-container">
+    <div class="config-header">
+    <h3 class="config-title">⚙ Target Configurations</h3>
+    <button id="copyConfigBtn" class="copy-btn">📋</button>
+</div>
+    <table id="targetConfigTable" class="config-table">
+        <thead>
+            <tr>
+                <th>Parameter Name</th>
+                <th>Value</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+ </div>
+   
+</div>
+
+    </div>
+
+    <!-- Buttons -->
+    <div class="btn-group">
+        <button id="prevStep4" class="prev-btn">⬅ Previous</button>
+        <button id="transportButton" class="transport-btn">🚀 Transport IFlow</button>
+    </div>
+</body>
+</html>

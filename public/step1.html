@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Step 1 - CPI Credentials</title>
+    <script src="script.js" defer></script>
+
+    <style>
+        /* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@700&display=swap');
+        /* Fullscreen background with gradient */
+        /* Ensure Full-Screen Background */
+body {
+    min-height: 100vh; /* Ensures the entire viewport height is covered */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Keeps content centered */
+    align-items: center;
+     background-color: #181818; /* Solid Blue Background */
+    padding: 0;
+    margin: 0;
+    zoom : 70%;
+}
+
+/* Ensure Content Doesn't Get Pushed Below */
+
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Ensure the credentials container aligns properly */
+.credentials-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 80px;
+    width: 70%;
+    margin: auto;
+}
+
+/* Adjust button section to prevent shifting */
+.btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+    padding-bottom: 30px; /* Ensure buttons stay positioned correctly */
+}
+
+
+
+
+        /* Title Styling */
+        .title-container {
+            text-align: center;
+            
+            
+            padding: 20px;
+            background: none;
+            color: white;
+            width: 100%;
+             font-family: 'Montserrat', sans-serif !important;
+    font-size: 2.0rem; /* Increase size for emphasis */
+    font-weight: 300;
+    
+    text-align: center;
+    line-height: 1.2; /* Adjust spacing between lines */
+    
+    /* Gradient text effect */
+    background: linear-gradient(45deg, #ffffff, #d9d9d9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* Soft shadow for better visibility */
+    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Step Title */
+        .step-title {
+             font-family: 'Montserrat', sans-serif !important;
+    font-size: 1.5rem; /* Increase size for emphasis */
+    font-weight: 200;
+    
+    text-align: center;
+    
+    
+    /* Gradient text effect */
+    background: linear-gradient(45deg, #ffffff, #d9d9d9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* Soft shadow for better visibility */
+    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);
+        }
+/* Tenant Type Selection */
+.tenant-type-container {
+    font-size: 0.7rem; /* Increase size for emphasis */
+    font-weight: 100;
+    font-family: 'Montserrat', sans-serif !important;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white; /* Change text color */
+
+}
+/* Radio Button Labels */
+.tenant-radio {
+    margin: 0 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    color: white; /* Change text color */
+}
+
+/* Increase Visibility of Selected Option */
+.tenant-radio input:checked + label {
+    font-weight: bold;
+    color: #ffeb3b; /* Change color when selected */
+}
+
+/* Customizing the Radio Buttons */
+.tenant-radio input {
+    margin-right: 5px;
+    transform: scale(1.2); /* Make radio buttons slightly larger */
+    accent-color: #ffeb3b; /* Change radio button color */
+}
+
+      /* Credentials Container */
+        .credentials-container {
+            font-family: 'Montserrat', sans-serif !important;
+    font-size: 0.7rem; /* Increase size for emphasis */
+    font-weight: 100;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 80px;
+            margin: 10px auto;
+            max-width: 90%;
+        }
+
+        /* Tenant Box (Removed white background) */
+        .tenant-box {
+            font-family: 'Montserrat', sans-serif !important;
+    font-size: 1rem; /* Increase size for emphasis */
+    font-weight: 1500;
+            width: 80%;
+            min-width: 350px;
+            text-align: left;
+            color: white; /* Keep text white */
+        }
+
+        /* Input Labels */
+        .input-group label {
+            padding: 12px;
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        /* Large Input Fields */
+        .large-input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 1.1rem;
+            margin-top: 5px;
+            background: white;
+            color: black;
+            transition: 0.3s;
+            box-shadow: 0px 2px 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .large-input:focus {
+            outline: none;
+            border: 2px solid #ffeb3b;
+            box-shadow: 0px 4px 12px rgba(255, 235, 59, 0.5);
+        }
+
+        /* Switch Button */
+        .switch-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 100px;
+            margin-top: 300px; /* ✅ Adjust height alignment */
+        }
+
+        .switch-btn {
+            font-size: 50px;
+            background: none;
+            color: none;
+            border: none;
+            border-radius: 10%;
+            width: 70px;
+            height: 70px;
+            cursor: pointer;
+            transition: 0.3s;
+            
+        }
+
+        .switch-btn:hover {
+            background: none;
+        }
+
+        
+
+        .primary-btn {
+            background: #F2004B;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 18px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        
+.secondary-btn {
+    background: #4CAF50;
+    color: white;
+    border-radius: 6px;
+    padding: 10px 15px;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+        .primary-btn:hover {
+            background: #F2004B;
+            transform: scale(1.2);
+        }
+
+       .secondary-btn:hover {
+    background: #45a049;
+    transform: scale(1.2);
+}
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            body {
+                zoom: 100%;
+            }
+
+            .credentials-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+
+            .tenant-box {
+                width: 90%;
+            }
+
+            .switch-container {
+                margin-top: 20px;
+            }
+        }
+        /* Modal Styling */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px); /* Adds a soft background blur */
+}
+
+/* Modal Content Box */
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 70%;
+    max-width: 1500px;
+    text-align: center;
+    margin: 20% auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    color: #333;
+}
+/* Larger Text Input for Configuration Name */
+#configName {
+    width: 90%; /* Expands to nearly full width */
+    padding: 15px; /* Increased padding for better typing */
+    font-size: 1.2rem; /* Larger font for readability */
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+    transition: 0.3s;
+}
+
+/* Highlight Input on Focus */
+#configName:focus {
+    outline: none;
+    border: 2px solid #ffeb3b;
+    box-shadow: 0px 4px 15px rgba(255, 235, 59, 0.5);
+}
+
+/* Adjust Save Button */
+#saveConfigConfirm {
+    width: 50%; /* Makes it more prominent */
+    margin-top: 15px;
+    padding: 12px;
+    font-size: 1.2rem;
+}
+/* Configuration List */
+#configList {
+    list-style: none;
+    padding: 0;
+    max-height: 250px;
+    overflow-y: auto; /* Enable scrolling if too many configs */
+}
+
+/* Individual Config Item */
+.config-item {
+    padding: 12px;
+    font-size: 1rem;
+    background: #f5f5f5;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+    border: 2px solid transparent;
+}
+
+/* Highlight Selected Config */
+.config-item.selected {
+    background: #ffeb3b;
+    font-weight: bold;
+    border-color: #ffd600;
+    box-shadow: 0px 4px 10px rgba(255, 235, 59, 0.5);
+}
+
+/* Ensure Buttons are the Same Size */
+#fetchConfigBtn, #deleteConfigBtn {
+    width: 48%; /* Ensures both buttons are equal width */
+    margin-top: 10px;
+    padding: 12px;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    text-align: center;
+}
+
+/* Proper Spacing Between Buttons */
+.config-modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Ensures proper spacing */
+}
+
+/* Delete Button */
+#deleteConfigBtn {
+    background: #ff3b3b;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Delete Button Hover */
+#deleteConfigBtn:hover {
+    background: #d63030;
+}
+
+/* Scrollable List for Large Configurations */
+#configList {
+    list-style: none;
+    padding: 0;
+    max-height: 250px; /* Limit height */
+    overflow-y: auto; /* Enable vertical scroll */
+    border: 1px solid #ccc; /* Optional border */
+    border-radius: 8px;
+    padding: 10px;
+}
+
+/* Scrollbar Styling (For Webkit Browsers) */
+#configList::-webkit-scrollbar {
+    width: 8px;
+}
+
+#configList::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 8px;
+}
+
+#configList::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 8px;
+}
+
+#configList::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+/* Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: black;
+}
+
+    </style>
+</head>
+<body>
+    <!-- Title Container -->
+    <div class="title-container">
+        <h1>CPI Transport Management Tool</h1>
+    </div>
+<div class="main-content">
+    
+<div class="tenant-type-container">
+    <!-- Step Title -->
+    <h2 class="step-title">Enter CPI Tenant Details</h2>
+    <!-- Tenant Type Selection -->
+    <label class="tenant-radio">
+        <input type="radio" name="tenantType" value="neo" id="tenantNeo"> Neo
+    </label>
+    <label class="tenant-radio">
+        <input type="radio" name="tenantType" value="cloudFoundry" id="tenantCF"> Cloud Foundry
+    </label>
+</div>
+
+
+    <!-- Main Form Section -->
+    <div class="credentials-container">
+        <!-- Source Credentials -->
+        <div class="tenant-box">
+            <h3 class="tenant-title">Source CPI Tenant</h3>
+            <p class="small-text">Enter API Service Key details for Source Tenant</p>
+            <div class="input-group">
+                <label>Source CPI Base URL:</label>
+                <input class="form-control large-input" id="sourceBaseUrl" type="text">
+            </div>
+            <div class="input-group">
+                <label>Client ID:</label>
+                <input class="form-control large-input" id="sourceClientId" type="text">
+            </div>
+            <div class="input-group">
+                <label>Client Secret:</label>
+                <input class="form-control large-input" id="sourceClientSecret" type="password">
+            </div>
+            <div class="input-group">
+                <label>OAuth Token URL:</label>
+                <input class="form-control large-input" id="sourceTokenUrl" type="url">
+            </div>
+        </div>
+
+        <!-- Switch Button (↔️) -->
+        <div class="switch-container">
+            <button id="switchValuesBtn" class="switch-btn">↔️</button>
+        </div>
+
+        <!-- Target Credentials -->
+        <div class="tenant-box">
+            <h3 class="tenant-title">Target CPI Tenant</h3>
+            <p class="small-text">Enter API Service Key details for Target Tenant</p>
+            <div class="input-group">
+                <label>Target CPI Base URL:</label>
+                <input class="form-control large-input" id="targetBaseUrl" type="text">
+            </div>
+            <div class="input-group">
+                <label>Client ID:</label>
+                <input class="form-control large-input" id="targetClientId" type="text">
+            </div>
+            <div class="input-group">
+                <label>Target Client Secret:</label>
+                <input class="form-control large-input" id="targetClientSecret" type="password">
+            </div>
+            <div class="input-group">
+                <label>OAuth Token URL:</label>
+                <input class="form-control large-input" id="targetTokenUrl" type="url">
+            </div>
+        </div>
+    </div>
+
+    <!-- Buttons Section -->
+    <div class="btn-group">
+        <button id="saveConfigBtn" class="btn secondary-btn">💾 Save Config</button>
+        <button id="loadConfigBtn" class="btn secondary-btn">📂 Open Saved Configs</button>
+        <button id="nextStep1" class="btn primary-btn">➡ Next</button>
+    </div>
+    <!-- Save Configuration Modal -->
+<div id="saveConfigModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Save Configuration</h2>
+        <label for="configName">Configuration Name:</label>
+        <input class="form-control large-input" id="configName" type="text" placeholder="Enter config name">
+        <button id="saveConfigConfirm" class="btn primary-btn">Save</button>
+    </div>
+</div>
+
+<!-- Open Configurations Modal -->
+<div id="loadConfigModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Select Configuration</h2>
+        <ul id="configList">
+            <!-- Configurations will be dynamically inserted here -->
+        </ul>
+        <div class="config-modal-buttons">
+            <button id="fetchConfigBtn" class="btn primary-btn">Load Configs</button>
+            <button id="deleteConfigBtn" class="btn secondary-btn">🗑 Delete Selected Config</button>
+        </div>
+    </div>
+</div>
+</div>
+
+
+</body>
+</html>

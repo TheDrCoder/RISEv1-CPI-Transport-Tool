@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Step 2 - Integration Package Selection</title>
+    <script src="script.js" defer></script>
+
+    <style>
+        /* Fullscreen Background */
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #181818; /* Solid background */
+            padding: 0;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            zoom: 80%;
+        }
+
+        /* Title Styling */
+        .title-container {
+            text-align: center;
+            
+            
+            padding: 20px;
+            background: none;
+            color: white;
+            width: 100%;
+             font-family: 'Montserrat', sans-serif !important;
+    font-size: 2.0rem; /* Increase size for emphasis */
+    font-weight: 300;
+    
+    text-align: center;
+    line-height: 1.2; /* Adjust spacing between lines */
+    
+    /* Gradient text effect */
+    background: linear-gradient(45deg, #ffffff, #d9d9d9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* Soft shadow for better visibility */
+    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Step Title */
+        .step-title {
+             font-family: 'Montserrat', sans-serif !important;
+    font-size: 1.5rem; /* Increase size for emphasis */
+    font-weight: 200;
+    
+    text-align: center;
+    
+    
+    /* Gradient text effect */
+    background: linear-gradient(45deg, #ffffff, #d9d9d9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* Soft shadow for better visibility */
+    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Package Selection Container */
+        .package-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            border-radius: 8px;
+            gap: 20px;
+            width: 80%;
+            margin: auto;
+            
+        }
+
+        /* Table Container */
+        .table-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 45%;
+            min-width: 900px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            color: black;
+            text-align: center;
+            max-height: 450px; /* Restrict height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border-radius: 8px;
+        }
+
+
+
+/* Table Header Always Visible */
+thead {
+    position: sticky;
+    top: 0;
+    background: #f5f5f5; /* Keeps header visible */
+    z-index: 2; /* Ensures it stays on top */
+}
+
+/* Ensure Table is Scrollable Instead of Hiding Rows */
+tbody {
+    display: block;
+    max-height: 250px; /* Limit visible rows */
+    overflow-y: auto;
+    width: 100%;
+}
+
+/* Ensure Header & Rows Align */
+thead, tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* Ensures proper alignment */
+}
+
+/* Table Structure */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Table Cell Styling */
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+/* Set Specific Column Widths */
+th:nth-child(1), td:nth-child(1) { width: 5%; } /* Select Button */
+th:nth-child(2), td:nth-child(2) { width: 5%; } /* Serial No */
+th:nth-child(3), td:nth-child(3) { width: 75%; } /* Artifact Name */
+th:nth-child(4), td:nth-child(4) { width: 15%; } /* Version */
+
+/* Table Header */
+th {
+    background: #f5f5f5;
+    font-weight: bold;
+}
+
+/* Increase Visibility for Selected Row */
+tbody tr.selected {
+    background: #ffeb3b; /* Highlight selected row */
+}
+
+/* Radio Button Scaling */
+input[type="radio"] {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+
+        /* Ensure Buttons Have the Same Size */
+.btn-group button {
+    width: 160px; /* Ensures both buttons are the same width */
+    padding: 12px;
+    font-size: 1.2rem; /* Standardize font size */
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: center;
+}
+
+/* Primary (Next) Button */
+.primary-btn {
+    background: #F2004B;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 18px;
+    transition: 0.3s;
+
+}
+
+/* Secondary (Previous) Button */
+.secondary-btn {
+    background: #4CAF50;
+            color: white;
+            border-radius: 6px;
+            padding: 10px 15px;
+            font-size: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+}
+
+/* Button Hover Effects */
+.primary-btn:hover {
+    background: #F2004B;
+    transform: scale(1.05);
+}
+
+.secondary-btn:hover {
+    background: #45a049;
+    transform: scale(1.05);
+}
+
+/* Ensure Even Spacing Between Buttons */
+.btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+    </style>
+</head>
+<body>
+    <!-- Title Container -->
+    <div class="title-container">
+        <h1>CPI Transport Management Tool</h1>
+    </div>
+
+    <!-- Step Title -->
+    <h2 class="step-title">Integration Package Selection</h2>
+
+    <!-- Main Package Selection -->
+    <div class="package-container">
+        <!-- Source Packages -->
+        <div class="table-container">
+            <h3>Source Integration Packages</h3>
+            <table id="sourcePackagesTable">
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>S.No.</th>
+                        <th>Package Name</th>
+                        <th>Version</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be inserted dynamically -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Target Packages -->
+        <div class="table-container">
+            <h3>Target Integration Packages</h3>
+            <table id="targetPackagesTable">
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>S.No.</th>
+                        <th>Package Name</th>
+                        <th>Version</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be inserted dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Buttons Section -->
+    <div class="btn-group">
+        <button id="prevStep2" class="btn secondary-btn">⬅ Previous</button>
+        <button id="nextStep2" class="btn primary-btn">➡ Next</button>
+        
+    </div>
+</body>
+</html>

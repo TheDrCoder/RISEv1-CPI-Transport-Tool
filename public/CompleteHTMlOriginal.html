@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta content="width=device-width, initial-scale=1.0" name="viewport">
+      <title>
+         SAP CPI Transport Tool v1.0
+      </title>
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <style>
+         .manifest-section, .config-section {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.config-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.config-table th, .config-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.config-table th {
+    background-color: #f2f2f2;
+}
+
+.target-config-input {
+    width: 100%;
+    padding: 5px;
+}
+
+.copyConfigBtn {
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
+         .stop-button {
+         position: fixed;
+         bottom: 20px;
+         right: 20px;
+         background-color: red;
+         color: white;
+         border: none;
+         border-radius: 50%;
+         width: 60px;
+         height: 60px;
+         font-size: 14px;
+         font-weight: bold;
+         cursor: pointer;
+         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+         }
+         .stop-button:hover {
+         background-color: darkred;
+         }
+         .title-container {
+         background-color: black;
+         color: white;
+         text-align: center;
+         font-size: 2rem;
+         font-weight: bold;
+         padding: 10px;
+         margin-bottom: 20px;
+         }
+         .container {
+         display: flex;
+         justify-content: space-between;
+         }
+         .half {
+         width: 48%;
+         }
+         .tenant-title {
+         font-size: 1.5rem;
+         font-weight: bold;
+         }
+         .small-text {
+         font-size: 0.8rem;
+         font-weight: bold;
+         }
+         input {
+         font-size: 1.2rem;
+         padding: 10px;
+         }
+         .btn {
+         font-size: 1.2rem;
+         padding: 10px 20px;
+         }
+         .section {
+         display: none;
+         }
+         .active {
+         display: block;
+         }
+         .title-container {
+         background-color: black;
+         color: white;
+         text-align: center;
+         font-size: 2rem;
+         font-weight: bold;
+         padding: 10px;
+         margin-bottom: 20px;
+         }
+         .container {
+         display: flex;
+         justify-content: space-between;
+         }
+         .half {
+         width: 48%;
+         }
+         .tenant-title {
+         font-size: 1.5rem;
+         font-weight: bold;
+         }
+         .small-text {
+         font-size: 0.8rem;
+         font-weight: bold;
+         }
+         /* Container for two-column layout */
+.container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Column styling */
+.column {
+    width: 48%;
+    padding: 15px;
+    background: #f8f8f8;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Manifest Box */
+.manifest-box {
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+/* Tables */
+.config-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.config-table th, .config-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.config-table th {
+    background: #f2f2f2;
+}
+
+/* Copy Button */
+.copyConfigBtn {
+    background: #007BFF;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.copyConfigBtn:hover {
+    background: #0056b3;
+}
+/* Center Transport Button */
+.transport-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Transport Button Styling */
+.transport-btn {
+    background: #28a745;
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.transport-btn:hover {
+    background: #218838;
+}
+
+/* Transport Popup Styling */
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+      </style>
+      </link>
+      </meta>
+      </meta>
+   </head>
+   <body>
+      <div class="title-container">
+         SAP CPI Transport Tool v1.0
+      </div>
+      <!-- Step 1: Enter Source and Target CPI Credentials -->
+      <div class="section active" id="step1">
+         <div class="container mt-5">
+            <!-- Source Tenant Section -->
+            <div class="half">
+               <h2 class="tenant-title">
+                  Source CPI Tenant
+               </h2>
+               <p class="small-text">
+                  Please enter API service key details for Source Tenant
+               </p>
+               <div class="mb-3">
+                  <label class="form-label" for="sourceBaseUrl">
+                  Source CPI Base URL:
+                  </label>
+                  <input class="form-control" id="sourceBaseUrl" required="" type="text">
+                  </input>
+               </div>
+               <div class="mb-3">
+                  <label class="form-label" for="sourceClientId">
+                  Client ID:
+                  </label>
+                  <input class="form-control" id="sourceClientId" required="" type="text">
+                  </input>
+               </div>
+               <div class="mb-3">
+                  <label class="form-label" for="sourceClientSecret">
+                  Client Secret:
+                  </label>
+                  <input class="form-control" id="sourceClientSecret" required="" type="password">
+                  </input>
+               </div>
+               <div class="mb-3">
+                  <label class="form-label" for="sourceTokenUrl">
+                  OAuth Token URL:
+                  </label>
+                  <input class="form-control" id="sourceTokenUrl" required="" type="url">
+                  </input>
+               </div>
+            </div>
+            <!-- Target Tenant Section -->
+            <div class="half">
+               <h2 class="tenant-title">
+                  Target CPI Tenant
+               </h2>
+               <p class="small-text">
+                  Please enter API service key details for Target Tenant
+               </p>
+               <div class="mb-3">
+                  <label class="form-label" for="targetBaseUrl">
+                  Target CPI Base URL:
+                  </label>
+                  <input class="form-control" id="targetBaseUrl" required="" type="text">
+                  </input>
+               </div>
+               <div class="mb-3">
+                  <label class="form-label" for="targetClientId">
+                  Client ID:
+                  </label>
+                  <input class="form-control" id="targetClientId" required="" type="text">
+                  </input>
+               </div>
+               <div class="mb-3">
+                  <label class="form-label" for="targetClientSecret">
+                  Target Client Secret:
+                  </label>
+                  <input class="form-control" id="targetClientSecret" required="" type="password">
+                  </input>
+               </div>
+               <div class="mb-3">
+                  <label class="form-label" for="targetTokenUrl">
+                  OAuth Token URL:
+                  </label>
+                  <input class="form-control" id="targetTokenUrl" required="" type="url">
+                  </input>
+               </div>
+            </div>
+         </div>
+         <div class="text-center mt-4">
+            <button class="btn btn-primary" id="nextStep1" type="button">
+            Next
+            </button>
+            <button class="btn btn-warning" id="switchValuesBtn">
+            Switch Source & Target
+            </button>
+            <button class="btn btn-secondary" id="prefillDataBtn" type="button">
+            Autofill
+            </button>
+         </div>
+      </div>
+      <!-- Step 2: Select Integration Packages -->
+      <div class="section" id="step2">
+         <h2 class="text-center mt-3">
+            Integration Package Selection
+         </h2>
+         <div class="container mt-4">
+            <!-- Source Packages (Left Half) -->
+            <div class="half">
+               <h2 class="tenant-title">
+                  Source Integration Packages
+               </h2>
+               <table class="table table-striped" id="sourcePackagesTable">
+                  <thead>
+                     <tr>
+                        <th>
+                           Select
+                        </th>
+                        <th>
+                           S.No.
+                        </th>
+                        <th>
+                           Package Name
+                        </th>
+                        <th>
+                           Version
+                        </th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+               </table>
+            </div>
+            <!-- Target Packages (Right Half) -->
+            <div class="half">
+               <h2 class="tenant-title">
+                  Target Integration Packages
+               </h2>
+               <table class="table table-striped" id="targetPackagesTable">
+                  <thead>
+                     <tr>
+                        <th>
+                           Select
+                        </th>
+                        <th>
+                           S.No.
+                        </th>
+                        <th>
+                           Package Name
+                        </th>
+                        <th>
+                           Version
+                        </th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div class="text-center mt-4">
+            <button class="btn btn-secondary" id="prevStep2" type="button">
+            Previous
+            </button>
+            <button class="btn btn-primary" id="nextStep2" type="button">
+            Next
+            </button>
+         </div>
+      </div>
+      <!-- Step 3: Select Integration Artifacts -->
+      <div class="section" id="step3">
+         <h2 class="text-center mt-3">
+            Select Integration Artifacts
+         </h2>
+         <div class="container mt-4">
+            <!-- Source Artifacts (Left Half) -->
+            <div class="half">
+               <h2 class="tenant-title">
+                  Source Integration Artifacts
+               </h2>
+               <table class="table table-striped" id="sourceArtifactsTable">
+                  <thead>
+                     <tr>
+                        <th>
+                           Select
+                        </th>
+                        <th>
+                           S.No.
+                        </th>
+                        <th>
+                           Artifact Name
+                        </th>
+                        <th>
+                           Version
+                        </th>
+                        <th>
+                           Deployed On
+                        </th>
+                        <th>
+                           Status
+                        </th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+               </table>
+            </div>
+            <!-- Target Artifacts (Right Half) -->
+            <div class="half">
+               <h2 class="tenant-title">
+                  Target Integration Artifacts
+               </h2>
+               <table class="table table-striped" id="targetArtifactsTable">
+                  <thead>
+                     <tr>
+                        <th>
+                           Select
+                        </th>
+                        <th>
+                           S.No.
+                        </th>
+                        <th>
+                           Artifact Name
+                        </th>
+                        <th>
+                           Version
+                        </th>
+                        <th>
+                           Deployed On
+                        </th>
+                        <th>
+                           Status
+                        </th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div class="text-center mt-4">
+            <button class="btn btn-secondary" id="prevStep3" type="button">
+            Previous
+            </button>
+            <button class="btn btn-primary" id="nextStep3" type="button">
+            Next
+            </button>
+         </div>
+      </div>
+      <!-- Step 4: Display Manifest & Configuration Details -->
+<div id="step4" class="step" style="display: none;">
+    <h2>Manifest & Configurations</h2>
+
+    <div class="container">
+        <!-- Left Column: Source Manifest & Configurations -->
+        <div class="column">
+            <h3>📜 Source Artifact Manifest</h3>
+            <div id="sourceManifestDetails" class="manifest-box"></div>
+
+            <h3>⚙ Source Configurations</h3>
+            <table id="sourceConfigTable" class="config-table">
+                <thead>
+                    <tr>
+                        <th>Parameter Name</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- Right Column: Target Manifest & Configurations -->
+        <div class="column">
+            <h3>📜 Target Artifact Manifest</h3>
+            <div id="targetManifestDetails" class="manifest-box"></div>
+
+            <h3>⚙ Target Configurations</h3>
+            <table id="targetConfigTable" class="config-table">
+                <thead>
+                    <tr>
+                        <th>Parameter Name</th>
+                        <th>Value</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Transport Button -->
+    <div class="transport-container">
+        <button id="transportButton" class="transport-btn">🚀 Transport IFlow</button>
+    </div>
+
+    <!-- Transport Progress Popup -->
+    <div id="transportPopup" class="popup" style="display: none;">
+        <div class="popup-content">
+            <p>🚀 Transporting IFlow... Please Wait</p>
+        </div>
+    </div>
+</div>
+
+
+
+
+      <script>
+         $(document).ready(function() {
+                     
+         // STOP Button Click Event
+         $("#stopServerBtn").click(function() {
+         if (confirm("⚠ Are you sure you want to stop the server?")) {
+         console.log("🛑 Sending Stop Request to PowerShell...");
+         $.ajax({
+         url: "http://localhost:9090/stop",
+         type: "GET",
+         success: function(Hponse) {
+         alert("✅ Server is shutting down...");
+         console.log("🔴 Server shutdown initiated.");
+         },
+         error: function(xhr, status, error) {
+         console.error("❌ Error stopping server:", error);
+         alert("⚠ Error stopping server. Check console.");
+         }
+         });
+         }
+         });
+         // ** Function to Show Previous Step **
+         function showPreviousStep(currentStep, previousStep) {
+         $(`#${currentStep}`).removeClass("active");
+         $(`#${previousStep}`).addClass("active");
+         }
+         // ** Handle "Previous" Button Click for Step 2 (Back to Step 1) **
+         $("#prevStep2").click(function() {
+         showPreviousStep("step2", "step1");
+         });
+         
+         // ** Handle "Previous" Button Click for Step 3 (Back to Step 2) **
+         $("#prevStep3").click(function() {
+         showPreviousStep("step3", "step2");
+         });
+         
+         // ** 1️⃣ Prefill Test Data Button **
+         $('#prefillDataBtn').click(function() {
+         console.log("🔄 Prefilling test data...");
+         $('#sourceBaseUrl').val("https://swmx-test-lucfr9vh.it-cpi005.cfapps.eu20.hana.ondemand.com");
+         $('#sourceClientId').val("sb-b3ccf6d0-fda7-4268-815f-f6b94d751210!b7013|it!b259");
+         $('#sourceClientSecret').val("572c124b-f742-411b-aa46-35450b0b2f9c$uvK4ni3akrJDrnQmjZ96e-pcMtGJpsiQu296qoy0fss=");
+         $('#sourceTokenUrl').val("https://swmx-test-lucfr9vh.authentication.eu20.hana.ondemand.com/oauth/token");
+         
+         $('#targetBaseUrl').val("https://swmx-prod-sul0pdze.it-cpi023.cfapps.eu20-001.hana.ondemand.com");
+         $('#targetClientId').val("sb-6595782b-474f-49a9-aaad-1a8682101ecc!b22503|it!b18631");
+         $('#targetClientSecret').val("3a2b76cb-8158-4239-87d7-8ead03050884$_-uX1uAcdUb872S8aDekMP7O8B05vEzCc5cY7ttpW4A=");
+         $('#targetTokenUrl').val("https://swmx-prod-sul0pdze.authentication.eu20.hana.ondemand.com/oauth/token");
+         
+         alert("✔ Test data has been prefilled!");
+         });
+         // ** 🔄 Function to Swap Source & Target Values **
+         function swapSourceAndTarget() {
+         console.log("🔄 Swapping Source and Target Values...");
+         
+         // ** Get Current Values **
+         let sourceBaseUrl = $("#sourceBaseUrl").val();
+         let sourceClientId = $("#sourceClientId").val();
+         let sourceClientSecret = $("#sourceClientSecret").val();
+         let sourceTokenUrl = $("#sourceTokenUrl").val();
+         
+         let targetBaseUrl = $("#targetBaseUrl").val();
+         let targetClientId = $("#targetClientId").val();
+         let targetClientSecret = $("#targetClientSecret").val();
+         let targetTokenUrl = $("#targetTokenUrl").val();
+         
+         // ** Swap Values **
+         $("#sourceBaseUrl").val(targetBaseUrl);
+         $("#sourceClientId").val(targetClientId);
+         $("#sourceClientSecret").val(targetClientSecret);
+         $("#sourceTokenUrl").val(targetTokenUrl);
+         
+         $("#targetBaseUrl").val(sourceBaseUrl);
+         $("#targetClientId").val(sourceClientId);
+         $("#targetClientSecret").val(sourceClientSecret);
+         $("#targetTokenUrl").val(sourceTokenUrl);
+         
+         console.log("✅ Source & Target Values Swapped!");
+         }
+         
+         // ** Attach Function to Button Click **
+         $("#switchValuesBtn").click(swapSourceAndTarget);
+         
+         
+         // ** 2️⃣ Show & Hide Loading Popup (Packages) **
+         function showLoadingPopup() {
+         $("body").append(`<div id="loadingPopup" style="position: fixed;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.8); color: white; padding: 20px;
+            border-radius: 10px; text-align: center;">
+            Fetching Integration Packages... Please Wait
+         </div>`);
+         }
+         
+         function hideLoadingPopup() {
+         $("#loadingPopup").remove();
+         }
+         
+         // ** 3.2.1️⃣ Show & Hide Loading Popup for Artifacts **
+         function showArtifactsLoadingPopup() {
+         $("body").append(`<div id="loadingArtifactsPopup" style="position: fixed;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.8); color: white; padding: 20px;
+            border-radius: 10px; text-align: center;">
+            Fetching Integration Artifacts... Please Wait
+         </div>`);
+         }
+         
+         function hideArtifactsLoadingPopup() {
+         $("#loadingArtifactsPopup").remove();
+         }
+         
+         //**Display Poppup table
+         function populateArtifactsTable(artifacts, tableId) {
+         let tableBody = $(`#${tableId} tbody`);
+         tableBody.empty(); // Clear existing rows
+         
+         if (!artifacts || artifacts.length === 0) {
+         tableBody.append(`<tr><td colspan="6">No artifacts found</td></tr>`);
+         return;
+         }
+         
+         artifacts.forEach((artifact, index) => {
+         // ** Extract date only from timestamp (YYYY-MM-DD) **
+         let deployedDate = artifact.DeployedOn ? artifact.DeployedOn.split("T")[0] : "N/A";
+         let row = `<tr>
+            <td><input type="radio" name="${tableId}" data-id="${artifact.Id}" data-name="${artifact.Name}" data-version="${artifact.Version}"></td>
+            <td>${index + 1}</td>
+            <td>${artifact.Name}</td>
+            <td>${artifact.Version}</td>
+            <td>${deployedDate}</td>
+            <td>${artifact.Status || "Unknown"}</td>
+         </tr>`;
+         tableBody.append(row);
+         });
+         }
+         
+         // ** 3️⃣ Handle "Next" Button Click for Step 3 **
+         // ** 3️⃣ Handle "Next" Button Click for Step 3 **
+         $("#nextStep3").click(function() {
+         console.log("🔄 Next button clicked. Fetching artifact ZIP...");
+         // ** Fetch Selected Source Artifact & Version **
+         let selectedSourceArtifact = $("input[name='sourceArtifactsTable']:checked").data("id");
+         let selectedSourceVersion = $("input[name='sourceArtifactsTable']:checked").data("version");
+         // ** Fetch Selected Target Artifact & Version **
+         let selectedTargetArtifact = $("input[name='targetArtifactsTable']:checked").data("id");
+         let selectedTargetVersion = $("input[name='targetArtifactsTable']:checked").data("version");
+         let selectedTargetName=$("input[name='targetArtifactsTable']:checked").data("name");
+         console.log("✅ Selected Source Artifact ID:", selectedSourceArtifact, "Version:", selectedSourceVersion);
+         console.log("✅ Selected Target Artifact ID:", selectedTargetArtifact, "Version:", selectedTargetVersion);
+         // ** Ensure Both Artifacts are Selected **
+         if (!selectedSourceArtifact || !selectedTargetArtifact) {
+         alert("🚨 Please select both Source and Target artifacts to transport.");
+         return;
+         }
+         // ** Show Loading Popup **
+         showLoadingPopup();
+         // ** Prepare Request Data **
+         let requestData = {
+         fetchArtifactZip: true,
+         sourceArtifactId: selectedSourceArtifact,
+         sourceArtifactVersion: selectedSourceVersion,
+         targetArtifactId: selectedTargetArtifact,
+         targetArtifactVersion: selectedTargetVersion,
+         targetArtifactName:selectedTargetName
+         };
+         console.log("📡 Sending Request to PowerShell for ZIP Export:", requestData);
+         // ** AJAX Request to Fetch ZIP File **
+         $.ajax({
+         url: "http://localhost:9090/",
+         type: "POST",
+         contentType: "application/json",
+         data: JSON.stringify(requestData),
+         success: function(response) {
+         console.log("✅ ZIP File Response from PowerShell:", response);
+         hideLoadingPopup();
+         if (response.Status === "success") {
+         alert("✔ Artifact ZIP downloaded successfully!");
+         // ** Store ZIP File Path & Proceed to Step 4 **
+         $("#zipFilePath").text(response.zipFilePath);
+         // ** Step 2: Call Another AJAX to Fetch Manifest & Configurations **
+         fetchManifestAndConfigs(selectedSourceArtifact, selectedSourceVersion, selectedTargetArtifact, selectedTargetVersion);
+         
+         } else {
+         alert("⚠ Error downloading artifact ZIP. Please check logs.");
+         }
+         },
+         error: function(xhr, status, error) {
+         console.error("❌ Error downloading ZIP:", error);
+         hideLoadingPopup();
+         alert("⚠ Error downloading artifact ZIP. Check the console.");
+         }
+         });
+         });
+
+         // ** 3️⃣ Handle "Next" Button Click for Manifest and Config parameters step **
+         function fetchManifestAndConfigs(sourceArtifactId, sourceArtifactVersion, targetArtifactId, targetArtifactVersion) {
+    console.log("📜 Fetching Manifest & Configurations...");
+
+    let requestData = {
+        fetchManifest: true,
+        sourceArtifactId: sourceArtifactId,
+        sourceArtifactVersion: sourceArtifactVersion,
+        targetArtifactId: targetArtifactId,
+        targetArtifactVersion: targetArtifactVersion
+    };
+
+    $.ajax({
+        url: "http://localhost:9090/",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(requestData),
+        success: function(response) {
+            console.log("✅ Received Manifest & Configurations:", response);
+
+            if (!response || !response.sourceManifest || !response.targetManifest || !response.sourceConfigurations || !response.targetConfigurations) {
+                console.warn("⚠️ Missing manifest or configurations data.");
+                alert("⚠️ No manifest or configurations found.");
+                return;
+            }
+
+            // ** Call function to populate the UI with Manifest & Configurations **
+            populateManifestAndConfigs(response.sourceManifest, response.targetManifest, response.sourceConfigurations, response.targetConfigurations);
+        },
+        error: function(xhr, status, error) {
+            console.error("❌ Error fetching manifest & configurations:", error);
+            alert("⚠ Error fetching manifest & configurations. Check console.");
+        }
+    });
+}
+
+// ** Populate  Manifest Data **
+
+function populateManifestAndConfigs(sourceManifest, targetManifest, sourceConfig, targetConfig) {
+    console.log("📜 Populating Manifest & Configurations...");
+
+    // ** Populate Source Manifest Data **
+    let sourceManifestHTML = `
+        <p><strong>Bundle Name:</strong> ${sourceManifest.BundleName || "N/A"}</p>
+        <p><strong>Bundle Symbolic Name:</strong> ${sourceManifest.BundleSymbolicName || "N/A"}</p>
+        <p><strong>Origin Bundle Name:</strong> ${sourceManifest.OriginBundleName || "N/A"}</p>
+        <p><strong>Origin Bundle Symbolic Name:</strong> ${sourceManifest.OriginBundleSymbolicName || "N/A"}</p>
+    `;
+    $("#sourceManifestDetails").html(sourceManifestHTML);
+
+    // ** Populate Target Manifest Data **
+    let targetManifestHTML = `
+        <p><strong>Bundle Name:</strong> ${targetManifest.BundleName || "N/A"}</p>
+        <p><strong>Bundle Symbolic Name:</strong> ${targetManifest.BundleSymbolicName || "N/A"}</p>
+        <p><strong>Origin Bundle Name:</strong> ${targetManifest.OriginBundleName || "N/A"}</p>
+        <p><strong>Origin Bundle Symbolic Name:</strong> ${targetManifest.OriginBundleSymbolicName || "N/A"}</p>
+    `;
+    $("#targetManifestDetails").html(targetManifestHTML);
+
+    // ** Populate Source Configuration Table **
+    let sourceTableBody = $("#sourceConfigTable tbody");
+    sourceTableBody.empty();
+    sourceConfig.forEach((param) => {
+        sourceTableBody.append(`<tr><td>${param.Name}</td><td>${param.Value}</td></tr>`);
+    });
+
+    // ** Populate Target Configuration Table with Edit Option **
+    let targetTableBody = $("#targetConfigTable tbody");
+    targetTableBody.empty();
+    targetConfig.forEach((param) => {
+        let row = `
+            <tr>
+                <td>${param.Name}</td>
+                <td><input type="text" value="${param.Value}" data-param="${param.Name}" class="target-config-input"></td>
+                <td><button class="copyConfigBtn" data-param="${param.Name}">Copy</button></td>
+            </tr>
+        `;
+        targetTableBody.append(row);
+    });
+
+    // ** Show Step 4 & Hide Step 3 **
+    $('#step3').removeClass('active');
+    $('#step4').addClass('active').show();
+    console.log($("#sourceManifestDetails").length > 0 ? "✅ #sourceManifestDetails found!" : "❌ #sourceManifestDetails NOT found!");
+console.log($("#targetManifestDetails").length > 0 ? "✅ #targetManifestDetails found!" : "❌ #targetManifestDetails NOT found!");
+console.log($("#sourceConfigTable tbody").length > 0 ? "✅ #sourceConfigTable found!" : "❌ #sourceConfigTable NOT found!");
+console.log($("#targetConfigTable tbody").length > 0 ? "✅ #targetConfigTable found!" : "❌ #targetConfigTable NOT found!");
+
+
+
+    console.log("✅ Manifest & Configurations Populated!");
+}
+
+// ** Handle "Copy" Button Click to Transfer Source Config to Target Config **
+$(document).on("click", ".copyConfigBtn", function() {
+    let paramName = $(this).data("param");
+    let sourceValue = $(`#sourceConfigTable td:contains('${paramName}')`).next().text();
+    $(`.target-config-input[data-param='${paramName}']`).val(sourceValue);
+});
+// 🚀 Deploy Artifact Function
+function deployArtifact(targetArtifactId, targetArtifactVersion) {
+    console.log("🚀 Deployment Initiated for:", targetArtifactId, "Version:", targetArtifactVersion);
+
+    // ** Show Deployment Popup **
+    $("body").append(`<div id="deploymentPopup" style="position: fixed;
+        top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: rgba(0,0,0,0.8); color: white; padding: 20px; 
+        border-radius: 10px; text-align: center;">
+        🔄 Deploying Artifact... Please Wait
+    </div>`);
+
+    // ** Prepare Data to Send to PowerShell **
+    let requestData = {
+        deployArtifact: true, // 🚀 This triggers Deploy-Artifact function in PowerShell
+        targetArtifactId: targetArtifactId,
+        targetArtifactVersion: targetArtifactVersion
+    };
+
+    console.log("📡 Sending Deployment Request:", requestData);
+
+    // ** AJAX Call to Deploy Artifact **
+    $.ajax({
+        url: "http://localhost:9090/",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(requestData),
+        success: function (response) {
+            console.log("✅ Deployment Response from PowerShell:", response);
+               if (typeof response === "string") {
+        console.warn("⚠️ Response received as a string, attempting to parse...");
+        try {
+            response = JSON.parse(response);
+            console.log("✅ Parsed JSON Response:", response);
+        } catch (error) {
+            console.error("❌ JSON Parsing Failed:", error);
+            alert("⚠ Error: Response is not valid JSON. Check console.");
+            return;
+        }
+    }
+            $("#deploymentPopup").remove(); // Remove the popup
+
+            if (response.status === "success") {
+                // ** Show Deployment Complete Message **
+                alert("✅ Deployment Successful!");
+            } else {
+                alert("❌ Deployment Failed. Check Logs.");
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("❌ Deployment Error:", error);
+            $("#deploymentPopup").remove();
+            alert("⚠ Deployment Failed! Check Console for Errors.");
+        }
+    });
+}
+
+
+
+// ** Handle "Transport" Button Click (Triggers Modify-Manifest in PowerShell) **
+$("#transportButton").click(function () {
+    console.log("🚀 Transport Button Clicked. Starting Compilation...");
+
+    // ** Show Compilation Popup **
+    $("body").append(`<div id="loadingPopup" style="position: fixed;
+        top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: rgba(0,0,0,0.8); color: white; padding: 20px;
+        border-radius: 10px; text-align: center; color: white;">
+        🔄 Compiling the new IFlow... Please Wait
+    </div>`);
+
+    // ** Prepare Request Data for PowerShell **
+    let requestData = {
+        modifyManifestFile: true
+    };
+
+    console.log("📡 Sending Modify-Manifest Request:", requestData);
+
+    // ** AJAX Call to Modify-ManifestFile **
+    $.ajax({
+        url: "http://localhost:9090/",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(requestData),
+        success: function (response) {
+            console.log("✅ Modify-Manifest Response from PowerShell:", response);
+            $("#loadingPopup").remove(); // Remove the popup
+
+
+    // Check if response is actually an object
+    if (typeof response === "string") {
+        console.warn("⚠️ Response received as a string, attempting to parse...");
+        try {
+            response = JSON.parse(response);
+            console.log("✅ Parsed JSON Response:", response);
+        } catch (error) {
+            console.error("❌ JSON Parsing Failed:", error);
+            alert("⚠ Error: Response is not valid JSON. Check console.");
+            return;
+        }
+    }
+
+    // Debugging: Log keys
+    console.log("🔍 Response Keys:", Object.keys(response));
+
+    // Check case-sensitive variations
+    console.log("🔍 Checking Status Variations:");
+    console.log("👉 response.Status:", response.Status);
+    console.log("👉 response.status:", response.status);
+    console.log("👉 response['Status']:", response["Status"]);
+    console.log("👉 response['status']:", response["status"]);
+
+    
+
+    // ✅ FIX: Normalize Case to Avoid Errors
+    if (response.Status?.toLowerCase() === "success" || response.status?.toLowerCase() === "success") {
+        alert("✅ Compilation Successful! Uploading the Artifact...");
+   
+
+            
+                // ** Show Upload Popup **
+                $("body").append(`<div id="uploadPopup" style="position: fixed;
+                    top: 50%; left: 50%; transform: translate(-50%, -50%);
+                    background: rgba(0,0,0,0.8); color: white; padding: 20px;
+                    border-radius: 10px; text-align: center;">
+                    ✅ Compilation Successful! Uploading the Artifact...
+                </div>`);
+
+                // ** Send Request to Upload Artifact in PowerShell **
+                let uploadRequest = {
+                    uploadArtifact: true
+                };
+
+                console.log("📡 Sending Upload Request:", uploadRequest);
+
+                $.ajax({
+                    url: "http://localhost:9090/",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(uploadRequest),
+                    success: function (uploadResponse) {
+                        console.log("✅ Upload Response from PowerShell:", uploadResponse);
+                        // Check if response is actually an object
+    if (typeof uploadResponse === "string") {
+        console.warn("⚠️ Response received as a string, attempting to parse...");
+        try {
+            uploadResponse = JSON.parse(uploadResponse);
+            console.log("✅ Parsed JSON Response:", uploadResponse);
+        } catch (error) {
+            console.error("❌ JSON Parsing Failed:", error);
+            alert("⚠ Error: Response is not valid JSON. Check console.");
+            return;
+        }
+    }
+
+                // Debugging: Log keys
+                console.log("🔍 Response Keys:", Object.keys(uploadResponse));
+
+    // Check case-sensitive variations
+    console.log("🔍 Checking Status Variations:");
+    console.log("👉 uploadResponse.Status:", uploadResponse.Status);
+    console.log("👉 uploadResponse.status:", uploadResponse.status);
+    console.log("👉 uploadResponse['Status']:", uploadResponse["Status"]);
+    console.log("👉 uploadResponse['status']:", uploadResponse["status"]);
+                        $("#uploadPopup").remove(); // Remove the upload popup
+
+                        if (uploadResponse.Status?.toLowerCase() === "success"){
+                            // ** Show Deployment Popup **
+                            $("body").append(`<div id="deployPopup" style="position: fixed;
+                                top: 50%; left: 50%; transform: translate(-50%, -50%);
+                                background: rgba(0,0,0,0.8); color: white; padding: 20px;
+                                border-radius: 10px; text-align: center;">
+                                ✅ Upload Successful! Do you want to deploy the artifact?
+                                <br><br>
+                                <button id="deployYes" style="background:green; color:white; padding:10px;">✅ Yes</button>
+                                <button id="deployNo" style="background:red; color:white; padding:10px;">❌ No</button>
+                            </div>`);
+
+                            // ** Yes Button: Deploy the Artifact **
+                            $("#deployYes").click(function () {
+                                $("#deployPopup").remove();
+                                deployArtifact(uploadResponse.targetArtifactId, uploadResponse.targetArtifactVersion);
+                            });
+
+                            // ** No Button: Show Manual Deployment Message **
+                            $("#deployNo").click(function () {
+                                $("#deployPopup").remove();
+                                alert("ℹ️ Integration artifact is uploaded. Please manually deploy it in the target tenant.");
+                            });
+
+                        } else {
+                            alert("❌ Upload failed. Please check logs.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("❌ Error Uploading Artifact:", error);
+                        $("#uploadPopup").remove();
+                        alert("⚠ Upload Failed! Check Console for Errors.");
+                    }
+                });
+
+            } else {
+                alert("❌ Compilation Failed. Please check logs.");
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("❌ Error Modifying Manifest:", error);
+            $("#loadingPopup").remove();
+            alert("⚠ Compilation Failed! Check Console for Errors.");
+        }
+    });
+});
+
+         // ** 3️⃣ Handle "Next" Button Click for Step 1 **
+         $("#nextStep1").click(function() {
+         console.log("🔄 Next button clicked. Fetching packages...");
+         showLoadingPopup();
+         
+         let requestData = {
+         sourceBaseUrl: $("#sourceBaseUrl").val().trim(),
+         sourceClientId: $("#sourceClientId").val().trim(),
+         sourceClientSecret: $("#sourceClientSecret").val().trim(),
+         sourceTokenUrl: $("#sourceTokenUrl").val().trim(),
+         targetBaseUrl: $("#targetBaseUrl").val().trim(),
+         targetClientId: $("#targetClientId").val().trim(),
+         targetClientSecret: $("#targetClientSecret").val().trim(),
+         targetTokenUrl: $("#targetTokenUrl").val().trim()
+         };
+         
+         $.ajax({
+         url: "http://localhost:9090/",
+         type: "POST",
+         contentType: "application/json",
+         data: JSON.stringify(requestData),
+         success: function(response) {
+         console.log("✅ Response received from PowerShell:", response);
+         hideLoadingPopup();
+         
+         if (!response || !response.sourcePackages || !response.targetPackages) {
+         console.warn("⚠️ API returned an empty response.");
+         alert("⚠️ No integration packages found.");
+         return;
+         }
+         
+         // ** 4️⃣ Populate Source Packages Table with Radio Buttons **
+         let sourceTable = $("#sourcePackagesTable tbody");
+         sourceTable.empty();
+         response.sourcePackages.forEach((pkg, index) => {
+         let row = `<tr>
+            <td><input type="radio" name="sourcePackage" class="source-radio" data-id="${pkg.Id}" data-name="${pkg.Name}"></td>
+            <td>${index + 1}</td>
+            <td>${pkg.Name}</td>
+            <td>${pkg.Version}</td>
+         </tr>`;
+         sourceTable.append(row);
+         });
+         
+         // ** 5️⃣ Populate Target Packages Table with Radio Buttons **
+         let targetTable = $("#targetPackagesTable tbody");
+         targetTable.empty();
+         response.targetPackages.forEach((pkg, index) => {
+         let row = `<tr>
+            <td><input type="radio" name="targetPackage" class="target-radio" data-id="${pkg.Id}" data-name="${pkg.Name}"></td>
+            <td>${index + 1}</td>
+            <td>${pkg.Name}</td>
+            <td>${pkg.Version}</td>
+         </tr>`;
+         targetTable.append(row);
+         });
+         
+         // ** Hide Step 1 & Show Step 2 **
+         $('#step1').removeClass('active');
+         $('#step2').addClass('active');
+         },
+         error: function(xhr, status, error) {
+         console.error("❌ Error fetching integration packages:", error);
+         hideLoadingPopup();
+         alert("⚠ Error fetching packages. Check console.");
+         }
+         });
+         });
+         
+         // ** 6️⃣ Capture Selected Package IDs on Next Button Click for Step 2 **
+         $("#nextStep2").click(function() {
+         let selectedSourcePackage = $(".source-radio:checked").data("id");
+         let selectedTargetPackage = $(".target-radio:checked").data("id");
+
+         
+         console.log("✅ Selected Source Package ID:", selectedSourcePackage);
+         console.log("✅ Selected Target Package ID:", selectedTargetPackage);
+         
+         if (!selectedSourcePackage || !selectedTargetPackage) {
+         alert("🚨 Please select one Source and one Target package.");
+         return;
+         }
+         
+         // ** 3.2.2️⃣ Show "Fetching Artifacts" Popup **
+         showArtifactsLoadingPopup();
+         
+         // ** 3.2.3️⃣ Prepare Data to Send to PowerShell **
+         let requestData = {
+         sourcePackageId: selectedSourcePackage,
+         targetPackageId: selectedTargetPackage
+         };
+         
+         console.log("📡 Sending Request to PowerShell for Artifacts:", requestData);
+         
+         // ** 3.2.4️⃣ Send Request to PowerShell Server **
+         $.ajax({
+         url: "http://localhost:9090/",
+         type: "POST",
+         contentType: "application/json",
+         data: JSON.stringify(requestData),
+         success: function(response) {
+         console.log("✅ Response received from PowerShell:", response);
+         hideArtifactsLoadingPopup();
+         
+         if (!response || !response.sourceArtifacts || !response.targetArtifacts) {
+         console.warn("⚠️ API returned an empty response.");
+         alert("⚠️ No integration artifacts found. Check SAP CPI credentials.");
+         return;
+         }
+         
+         console.log("🔍 Debug: Source Artifacts Received:", response.sourceArtifacts);
+         console.log("🔍 Debug: Target Artifacts Received:", response.targetArtifacts);
+         
+         // ** 3.3.1️⃣ Populate Source Artifacts Table **
+         populateArtifactsTable(response.sourceArtifacts, "sourceArtifactsTable");
+         
+         // ** 3.3.2️⃣ Populate Target Artifacts Table **
+         populateArtifactsTable(response.targetArtifacts, "targetArtifactsTable");
+         
+         // ** 3.3.3️⃣ Hide Step 2 & Show Step 3 **
+         $('#step2').removeClass('active');
+         $('#step3').addClass('active');
+         },
+         error: function(xhr, status, error) {
+         console.error("❌ Error fetching artifacts:", error);
+         hideArtifactsLoadingPopup();
+         alert("⚠ Error fetching artifacts. Check console.");
+         }
+         });
+         
+         });
+         
+         });
+      </script>
+      <!-- STOP Button (Fixed at Bottom Right) -->
+      <button class="stop-button" id="stopServerBtn">
+      🛑 STOP
+      </button>
+   </body>
+</html>

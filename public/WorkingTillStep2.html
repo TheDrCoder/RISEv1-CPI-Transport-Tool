@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>SAP CPI Transport Tool</title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <style>
+      .title-container {
+         background-color: black;
+         color: white;
+         text-align: center;
+         font-size: 2rem;
+         font-weight: bold;
+         padding: 10px;
+         margin-bottom: 20px;
+      }
+      .container {
+         display: flex;
+         justify-content: space-between;
+      }
+      .half {
+         width: 48%;
+      }
+      .tenant-title {
+         font-size: 1.5rem;
+         font-weight: bold;
+      }
+      .small-text {
+         font-size: 0.8rem;
+         font-weight: bold;
+      }
+      input {
+         font-size: 1.2rem;
+         padding: 10px;
+      }
+      .btn {
+         font-size: 1.2rem;
+         padding: 10px 20px;
+      }
+      .section {
+         display: none;
+      }
+      .active {
+         display: block;
+      }
+      .title-container {
+         background-color: black;
+         color: white;
+         text-align: center;
+         font-size: 2rem;
+         font-weight: bold;
+         padding: 10px;
+         margin-bottom: 20px;
+      }
+      .container {
+         display: flex;
+         justify-content: space-between;
+      }
+      .half {
+         width: 48%;
+      }
+      .tenant-title {
+         font-size: 1.5rem;
+         font-weight: bold;
+      }
+      .small-text {
+         font-size: 0.8rem;
+         font-weight: bold;
+      }
+   </style>
+</head>
+<body>
+   <div class="title-container">SAP CPI TOOL</div>
+   <!-- Step 1: Enter Source and Target CPI Credentials -->
+   <div id="step1" class="section active">
+      <div class="container mt-5">
+         <!-- Source Tenant Section -->
+         <div class="half">
+            <h2 class="tenant-title">Source CPI Tenant</h2>
+            <p class="small-text">Please enter API service key details for Source Tenant</p>
+            <div class="mb-3">
+               <label for="sourceBaseUrl" class="form-label">Source CPI Base URL:</label>
+               <input type="text" class="form-control" id="sourceBaseUrl" required>
+            </div>
+            <div class="mb-3">
+               <label for="sourceClientId" class="form-label">Client ID:</label>
+               <input type="text" class="form-control" id="sourceClientId" required>
+            </div>
+            <div class="mb-3">
+               <label for="sourceClientSecret" class="form-label">Client Secret:</label>
+               <input type="password" class="form-control" id="sourceClientSecret" required>
+            </div>
+            <div class="mb-3">
+               <label for="sourceTokenUrl" class="form-label">OAuth Token URL:</label>
+               <input type="url" class="form-control" id="sourceTokenUrl" required>
+            </div>
+         </div>
+         <!-- Target Tenant Section -->
+         <div class="half">
+            <h2 class="tenant-title">Target CPI Tenant</h2>
+            <p class="small-text">Please enter API service key details for Target Tenant</p>
+            <div class="mb-3">
+               <label for="targetBaseUrl" class="form-label">Target CPI Base URL:</label>
+               <input type="text" class="form-control" id="targetBaseUrl" required>
+            </div>
+            <div class="mb-3">
+               <label for="targetClientId" class="form-label">Client ID:</label>
+               <input type="text" class="form-control" id="targetClientId" required>
+            </div>
+            <div class="mb-3">
+               <label for="targetClientSecret" class="form-label">Target Client Secret:</label>
+               <input type="password" class="form-control" id="targetClientSecret" required>
+            </div>
+            <div class="mb-3">
+               <label for="targetTokenUrl" class="form-label">OAuth Token URL:</label>
+               <input type="url" class="form-control" id="targetTokenUrl" required>
+            </div>
+         </div>
+      </div>
+      <div class="text-center mt-4">
+         <button type="button" class="btn btn-primary" id="nextStep1">Next</button>
+      </div>
+      <div class="text-center mt-2">
+        <button type="button" class="btn btn-secondary" id="prefillDataBtn">Prefill Test Data</button>
+     </div>
+  </div>
+  <!-- Step 2: Select Integration Packages -->
+  <div id="step2" class="section">
+   <!-- Section Heading -->
+   <h2 class="text-center mt-3">Integration Package Selection</h2>
+   <div class="container mt-4">
+      <!-- Source Packages (Left Half) -->
+      <div class="half">
+         <h2 class="tenant-title">Source Integration Packages</h2>
+         <p class="small-text">Select an integration package from the source tenant.</p>
+         <select id="sourcePackages" class="form-select" size="5">
+            <option value="">Fetching Packages...</option>
+         </select>
+      </div>
+      <!-- Target Packages (Right Half) -->
+      <div class="half">
+         <h2 class="tenant-title">Target Integration Packages</h2>
+         <p class="small-text">Select an integration package from the target tenant.</p>
+         <select id="targetPackages" class="form-select" size="5">
+            <option value="">Fetching Packages...</option>
+         </select>
+         <div class="mt-3">
+            <label for="newPackageName" class="form-label">Or Create New Package:</label>
+            <input type="text" class="form-control" id="newPackageName" placeholder="Enter new package name">
+         </div>
+      </div>
+   </div>
+   <!-- Next Button -->
+   <div class="text-center mt-4">
+      <button type="button" class="btn btn-primary" id="nextStep2">Next</button>
+   </div>
+</div>
+<script>
+    $(document).ready(function() {
+
+        // ** 1️⃣ Debug Prefill Test Data **
+        $('#prefillDataBtn').click(function() {
+            console.log("🔄 Prefilling test data...");
+
+            // ** Prefill Source Tenant Details **
+            $('#sourceBaseUrl').val("https://swmx-test-lucfr9vh.it-cpi005.cfapps.eu20.hana.ondemand.com");
+            $('#sourceClientId').val("sb-b3ccf6d0-fda7-4268-815f-f6b94d751210!b7013|it!b259");
+            $('#sourceClientSecret').val("572c124b-f742-411b-aa46-35450b0b2f9c$uvK4ni3akrJDrnQmjZ96e-pcMtGJpsiQu296qoy0fss=");
+            $('#sourceTokenUrl').val("https://swmx-test-lucfr9vh.authentication.eu20.hana.ondemand.com/oauth/token");
+
+            // ** Prefill Target Tenant Details **
+            $('#targetBaseUrl').val("https://swmx-prod-sul0pdze.it-cpi023.cfapps.eu20-001.hana.ondemand.com");
+            $('#targetClientId').val("sb-6595782b-474f-49a9-aaad-1a8682101ecc!b22503|it!b18631");
+            $('#targetClientSecret').val("3a2b76cb-8158-4239-87d7-8ead03050884$_-uX1uAcdUb872S8aDekMP7O8B05vEzCc5cY7ttpW4A=");
+            $('#targetTokenUrl').val("https://swmx-prod-sul0pdze.authentication.eu20.hana.ondemand.com/oauth/token");
+
+            alert("✔ Test data has been prefilled!");
+        });
+
+        // ** 2️⃣ Debug 'Next' Button Click Event **
+        $("#nextStep1").click(function() {
+            console.log("🔄 Next button clicked. Validating inputs...");
+
+            // ** Get User Input from Form **
+            let sourceBaseUrl = $("#sourceBaseUrl").val().trim();
+            let sourceClientId = $("#sourceClientId").val().trim();
+            let sourceClientSecret = $("#sourceClientSecret").val().trim();
+            let sourceTokenUrl = $("#sourceTokenUrl").val().trim();
+
+            let targetBaseUrl = $("#targetBaseUrl").val().trim();
+            let targetClientId = $("#targetClientId").val().trim();
+            let targetClientSecret = $("#targetClientSecret").val().trim();
+            let targetTokenUrl = $("#targetTokenUrl").val().trim();
+
+            // ** 3️⃣ Validate Inputs Before Sending Request **
+            if (!sourceBaseUrl || !sourceClientId || !sourceClientSecret || !sourceTokenUrl ||
+                !targetBaseUrl || !targetClientId || !targetClientSecret || !targetTokenUrl) {
+                alert("🚨 All fields must be filled before proceeding.");
+                return;
+            }
+
+            // ** 4️⃣ Prepare Data to Send **
+            let requestData = {
+                sourceBaseUrl: sourceBaseUrl,
+                sourceClientId: sourceClientId,
+                sourceClientSecret: sourceClientSecret,
+                sourceTokenUrl: sourceTokenUrl,
+                targetBaseUrl: targetBaseUrl,
+                targetClientId: targetClientId,
+                targetClientSecret: targetClientSecret,
+                targetTokenUrl: targetTokenUrl
+            };
+
+            console.log("📡 Sending Request to PowerShell Server:", JSON.stringify(requestData, null, 2));
+
+            // ** 5️⃣ Send Data to PowerShell Server and Debug Response **
+            $.ajax({
+                url: "http://localhost:9090/",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(requestData),
+                success: function(response) {
+                    console.log("✅ Response received from PowerShell:", response);
+                    alert("✔ Data processed successfully!");
+
+                    // ** 6️⃣ Debug Data in Response **
+                    console.log("🔍 Debug: Source Packages Received:", response.sourcePackages);
+                    console.log("🔍 Debug: Target Packages Received:", response.targetPackages);
+
+                    // ** 7️⃣ Populate Source Packages Dropdown **
+                    let sourceDropdown = $("#sourcePackages");
+                    sourceDropdown.empty();
+                    response.sourcePackages.forEach(pkg => {
+                        sourceDropdown.append(new Option(pkg.Name, pkg.Id));
+                    });
+
+                    // ** 8️⃣ Populate Target Packages Dropdown **
+                    let targetDropdown = $("#targetPackages");
+                    targetDropdown.empty();
+                    response.targetPackages.forEach(pkg => {
+                        targetDropdown.append(new Option(pkg.Name, pkg.Id));
+                    });
+
+                    // ** 9️⃣ Move to Step 2 UI **
+                    $('#step1').removeClass('active');
+                    $('#step2').addClass('active');
+                },
+                error: function(xhr, status, error) {
+                    console.error("❌ Error fetching integration packages:", error);
+                    alert("⚠ Error fetching packages. Check console.");
+                }
+            });
+        });
+    });
+</script>
+
+
+</body>
+</html>

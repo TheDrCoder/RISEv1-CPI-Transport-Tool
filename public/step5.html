@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Step 5 - Deployment Options</title>
+    <script src="script.js" defer></script>
+
+    <style>
+        /* Fullscreen Background */
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #007BFF;
+            padding: 0;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            zoom: 80%;
+        }
+
+        /* Title */
+        .title-container {
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            font-size: 2.0rem;
+            font-weight: 300;
+            text-align: center;
+            background: linear-gradient(45deg, #ffffff, #d9d9d9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Step Title */
+        .step-title {
+            font-size: 1.5rem;
+            font-weight: 200;
+            text-align: center;
+            background: linear-gradient(45deg, #ffffff, #d9d9d9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Deployment Selection */
+        .deployment-container {
+            text-align: center;
+            margin-top: 30px;
+            padding: 12px;
+        }
+
+        /* Deployment Buttons */
+        .deployment-btn {
+            background: #ffeb3b;
+            color: #333;
+            font-weight: bold;
+            border-radius: 8px;
+            padding: 24px 24px;
+            font-size: 18px;
+            transition: 0.3s;
+            margin: 10px;
+            cursor: pointer;
+            width: 250px;
+            display: inline-block;
+        }
+
+        .deployment-btn:hover {
+            background: #ffd600;
+            transform: scale(1.05);
+        }
+
+        /* Button Section */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        /* Primary & Secondary Buttons */
+        .primary-btn {
+            background: #ffeb3b;
+            color: #333;
+            font-weight: bold;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 18px;
+            transition: 0.3s;
+            width: 180px;
+            text-align: center;
+        }
+
+        .secondary-btn {
+            background: #4CAF50;
+            color: white;
+            border-radius: 6px;
+            padding: 12px 24px;
+            font-size: 18px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 180px;
+        }
+
+        .primary-btn:hover {
+            background: #ffd600;
+            transform: scale(1.05);
+        }
+
+        .secondary-btn:hover {
+            background: #45a049;
+            transform: scale(1.05);
+        }
+        /* ✅ Modal Styling */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+}
+
+/* ✅ Modal Content Box */
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 50%;
+    max-width: 500px;
+    text-align: center;
+    margin: 15% auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    color: #333;
+}
+
+/* ✅ Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: black;
+}
+
+/* ✅ Modal Buttons */
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+
+
+
+    </style>
+</head>
+<body>
+
+    <div class="title-container">
+        <h1>CPI Transport Management Tool</h1>
+    </div>
+
+    <h2 class="step-title">Select Deployment Option</h2>
+
+    <div class="deployment-container">
+        <button id="deployAndConfigure" class="deployment-btn">⚙ Deploy & Configure</button>
+        <button id="deployOnly" class="deployment-btn">🚀 Deploy Only</button>
+    </div>
+
+    <div class="btn-group">
+        <button id="prevStep5" class="btn secondary-btn">Go back </button>
+    </div>
+    <!-- ✅ Deployment Success Modal -->
+<div id="deploymentSuccessModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>✅ Deployment Successful!</h2>
+        <p>Your integration artifact has been successfully deployed.</p>
+        <div class="modal-buttons">
+            <button id="transportAnotherBtn" class="btn primary-btn">🔄 Transport Another IFlow</button>
+            <button id="endSessionBtn" class="btn secondary-btn">🛑 End Session</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
